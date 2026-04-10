@@ -1,5 +1,9 @@
 # CNM工具箱 🛠️
 
+[![Build Android APK](https://github.com/2221136/cnmtools/actions/workflows/build.yml/badge.svg)](https://github.com/2221136/cnmtools/actions/workflows/build.yml)
+[![Flutter Version](https://img.shields.io/badge/Flutter-3.5.0-blue.svg)](https://flutter.dev/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 一个基于Flutter开发的跨平台AI工具箱应用，集成了多种实用的AI工具和功能。
 
 ## ✨ 功能特性
