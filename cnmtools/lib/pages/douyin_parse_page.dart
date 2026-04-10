@@ -8,6 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:gal/gal.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'dart:io';
 import '../services/api_service.dart';
 import '../models/douyin_model.dart';
@@ -195,9 +196,18 @@ class _DouyinParsePageState extends State<DouyinParsePage> {
         }
       } else {
         try {
-          var status = await Permission.storage.status;
+          // Android 13+ 使用photos权限，之前版本使用storage权限
+          Permission permission = Permission.photos;
+          if (Platform.isAndroid) {
+            final androidInfo = await DeviceInfoPlugin().androidInfo;
+            if (androidInfo.version.sdkInt <= 32) {
+              permission = Permission.storage;
+            }
+          }
+          
+          var status = await permission.status;
           if (!status.isGranted) {
-            status = await Permission.storage.request();
+            status = await permission.request();
             if (!status.isGranted) {
               message = '需要存储权限才能保存视频';
               success = false;
