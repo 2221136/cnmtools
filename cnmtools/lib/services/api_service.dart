@@ -5,6 +5,10 @@ import '../models/image_recognition_model.dart';
 import '../models/ai_detection_model.dart';
 import '../models/translate_model.dart';
 import '../models/chat_model.dart';
+import '../models/font_design_model.dart';
+import '../models/douyin_model.dart';
+import '../models/bilibili_model.dart';
+import '../models/wallpaper_model.dart';
 import '../utils/storage_util.dart';
 
 class ApiService {
@@ -13,6 +17,10 @@ class ApiService {
   static const String aiDetectionUrl = 'https://api.pearktrue.cn/api/image_identification_chart';
   static const String translateUrl = 'https://api.pearktrue.cn/api/translate/ai/';
   static const String chatUrl = 'https://api.pearktrue.cn/api/xfai/';
+  static const String fontDesignUrl = 'https://api.pearktrue.cn/api/aidesignfont/';
+  static const String douyinParseUrl = 'https://api.luosu.top/api/dyjx/index.php';
+  static const String bilibiliParseUrl = 'https://api.luosu.top/api/blbljx/index.php';
+  static const String wallpaperUrl = 'https://v1.uuhb.cn/v1/wallpaper/random';
 
   static Future<NewsData?> fetchLatestNews() async {
     try {
@@ -175,6 +183,77 @@ class ApiService {
       if (response.statusCode == 200) {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
         return ChatResult.fromJson(jsonData);
+      } else {
+        throw Exception('请求失败: ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<FontDesignResult> designFont({
+    required String text,
+    String type = 'json',
+  }) async {
+    try {
+      final url = '$fontDesignUrl?text=${Uri.encodeComponent(text)}&type=${Uri.encodeComponent(type)}';
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(utf8.decode(response.bodyBytes));
+        return FontDesignResult.fromJson(jsonData);
+      } else {
+        throw Exception('请求失败: ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<DouyinResult> parseDouyin(String url) async {
+    try {
+      final requestUrl = '$douyinParseUrl?url=${Uri.encodeComponent(url)}';
+      final response = await http.get(Uri.parse(requestUrl));
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(utf8.decode(response.bodyBytes));
+        return DouyinResult.fromJson(jsonData);
+      } else {
+        throw Exception('请求失败: ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<BilibiliResult> parseBilibili(String url) async {
+    try {
+      final requestUrl = '$bilibiliParseUrl?url=${Uri.encodeComponent(url)}';
+      final response = await http.get(Uri.parse(requestUrl));
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(utf8.decode(response.bodyBytes));
+        return BilibiliResult.fromJson(jsonData);
+      } else {
+        throw Exception('请求失败: ${response.statusCode}');
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  static Future<WallpaperResult> getRandomWallpaper({String? keyword}) async {
+    try {
+      String url = wallpaperUrl;
+      if (keyword != null && keyword.isNotEmpty) {
+        url = '$wallpaperUrl?keyword=${Uri.encodeComponent(keyword)}';
+      }
+      
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final jsonData = json.decode(utf8.decode(response.bodyBytes));
+        return WallpaperResult.fromJson(jsonData);
       } else {
         throw Exception('请求失败: ${response.statusCode}');
       }

@@ -5,6 +5,11 @@ import 'ai_detection_page.dart';
 import 'translate_page.dart';
 import 'chat_page.dart';
 import 'settings_page.dart';
+import 'personality_test_page.dart';
+import 'font_design_page.dart';
+import 'douyin_parse_page.dart';
+import 'bilibili_parse_page.dart';
+import 'wallpaper_page.dart';
 import '../utils/storage_util.dart';
 
 class HomePage extends StatefulWidget {
@@ -69,6 +74,41 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ChatPage()),
+    );
+  }
+
+  void _navigateToPersonalityTest() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const PersonalityTestPage()),
+    );
+  }
+
+  void _navigateToFontDesign() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const FontDesignPage()),
+    );
+  }
+
+  void _navigateToDouyinParse() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const DouyinParsePage()),
+    );
+  }
+
+  void _navigateToBilibiliParse() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const BilibiliParsePage()),
+    );
+  }
+
+  void _navigateToWallpaper() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const WallpaperPage()),
     );
   }
 
@@ -175,6 +215,46 @@ class _HomePageState extends State<HomePage> {
             subtitle: '讯飞星火大模型',
             color: Colors.teal,
             onTap: _navigateToChat,
+          ),
+          _buildToolCard(
+            context,
+            icon: Icons.psychology,
+            title: 'SBTI人格测试',
+            subtitle: '新一代人格自测',
+            color: Colors.deepPurple,
+            onTap: _navigateToPersonalityTest,
+          ),
+          _buildToolCard(
+            context,
+            icon: Icons.text_fields,
+            title: 'AI字体设计',
+            subtitle: '艺术字体生成',
+            color: Colors.indigo,
+            onTap: _navigateToFontDesign,
+          ),
+          _buildToolCard(
+            context,
+            icon: Icons.video_library,
+            title: '抖音解析',
+            subtitle: '无水印视频下载',
+            color: Colors.pink,
+            onTap: _navigateToDouyinParse,
+          ),
+          _buildToolCard(
+            context,
+            icon: Icons.play_circle,
+            title: '哔哩哔哩解析',
+            subtitle: 'B站视频下载',
+            color: Colors.cyan,
+            onTap: _navigateToBilibiliParse,
+          ),
+          _buildToolCard(
+            context,
+            icon: Icons.wallpaper,
+            title: '壁纸查找',
+            subtitle: '随机精美壁纸',
+            color: Colors.teal,
+            onTap: _navigateToWallpaper,
           ),
         ],
       ),

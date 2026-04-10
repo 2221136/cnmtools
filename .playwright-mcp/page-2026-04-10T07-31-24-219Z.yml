@@ -1,0 +1,8 @@
+- generic [ref=e2]:
+  - generic [ref=e4]:
+    - heading "MBTI已过时，SBTI来了。" [level=1] [ref=e5]
+    - button "开始测试→" [ref=e7] [cursor=pointer]
+    - generic [ref=e8]:
+      - generic [ref=e9]: 人类性格测评榜·全网热度TOP1
+      - generic [ref=e10]: SBTI 人格测试，新一代人格自测神器🔥现已火爆全网！只需 3 分钟，即可快速测出你的专属人格类型，精准解读性格特质，帮你轻松找到同频搭子，好玩又解压。
+  - text: 展开
