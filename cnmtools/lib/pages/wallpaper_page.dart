@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart' show Uint8List;
 import 'package:dio/dio.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:gal/gal.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
@@ -141,18 +141,23 @@ class _WallpaperPageState extends State<WallpaperPage> {
             );
 
             final imageBytes = Uint8List.fromList(response.data);
-            final result = await ImageGallerySaver.saveImage(
-              imageBytes,
-              quality: 100,
-              name: 'wallpaper_${DateTime.now().millisecondsSinceEpoch}',
-            );
-
-            if (result['isSuccess'] == true) {
-              message = '壁纸已保存到相册';
-              success = true;
-            } else {
-              message = '保存失败，请重试';
+            
+            final tempDir = await getTemporaryDirectory();
+            final fileName = 'wallpaper_${DateTime.now().millisecondsSinceEpoch}.jpg';
+            final filePath = '${tempDir.path}/$fileName';
+            final file = File(filePath);
+            await file.writeAsBytes(imageBytes);
+            
+            await Gal.putImage(filePath);
+            
+            try {
+              await file.delete();
+            } catch (e) {
+              // Ignore cleanup errors
             }
+            
+            message = '壁纸已保存到相册';
+            success = true;
           }
         } catch (e) {
           message = '保存失败: ${e.toString()}';

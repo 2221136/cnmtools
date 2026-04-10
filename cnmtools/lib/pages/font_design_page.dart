@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:gal/gal.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
@@ -147,18 +147,22 @@ class _FontDesignPageState extends State<FontDesignPage> {
           }
 
           if (status.isGranted) {
-            final result = await ImageGallerySaver.saveImage(
-              imageBytes,
-              quality: 100,
-              name: 'font_design_${DateTime.now().millisecondsSinceEpoch}',
-            );
-
-            if (result['isSuccess'] == true) {
-              message = '图片已保存到相册';
-              success = true;
-            } else {
-              message = '保存失败，请重试';
+            final tempDir = await getTemporaryDirectory();
+            final fileName = 'font_design_${DateTime.now().millisecondsSinceEpoch}.png';
+            final filePath = '${tempDir.path}/$fileName';
+            final file = File(filePath);
+            await file.writeAsBytes(imageBytes);
+            
+            await Gal.putImage(filePath);
+            
+            try {
+              await file.delete();
+            } catch (e) {
+              // Ignore cleanup errors
             }
+            
+            message = '图片已保存到相册';
+            success = true;
           }
         } catch (e) {
           message = '保存失败: ${e.toString()}';

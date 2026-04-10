@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:gal/gal.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
@@ -219,19 +219,16 @@ class _DouyinParsePageState extends State<DouyinParsePage> {
               },
             );
 
-            final result = await ImageGallerySaver.saveFile(filePath);
-
-            if (result['isSuccess'] == true) {
-              message = '视频已保存到相册';
-              success = true;
-              try {
-                await File(filePath).delete();
-              } catch (e) {
-                // Ignore cleanup errors
-              }
-            } else {
-              message = '保存失败，请重试';
+            await Gal.putVideo(filePath);
+            
+            try {
+              await File(filePath).delete();
+            } catch (e) {
+              // Ignore cleanup errors
             }
+            
+            message = '视频已保存到相册';
+            success = true;
           }
         } catch (e) {
           message = '保存失败: ${e.toString()}';

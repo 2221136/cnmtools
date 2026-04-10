@@ -38,7 +38,6 @@ dependencies:
   url_launcher: ^6.2.0
   shared_preferences: ^2.2.0
   image_picker: ^1.0.0
-  image_gallery_saver: ^2.0.3
   gal: ^2.3.0
   permission_handler: ^11.0.0
   dio: ^5.4.0
