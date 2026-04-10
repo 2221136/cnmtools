@@ -11,6 +11,11 @@
 # 保留Dart VM相关
 -keep class androidx.lifecycle.DefaultLifecycleObserver
 
+# 忽略Play Core缺失类警告（如果不使用动态功能模块）
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
+
 # 保留注解
 -keepattributes *Annotation*
 -keepattributes Signature
@@ -65,4 +70,16 @@
     public static *** d(...);
     public static *** v(...);
     public static *** i(...);
+}
+
+# Kotlin相关
+-dontwarn kotlin.**
+-dontwarn kotlinx.**
+-keep class kotlin.** { *; }
+-keep class kotlin.Metadata { *; }
+-keepclassmembers class **$WhenMappings {
+    <fields>;
+}
+-keepclassmembers class kotlin.Metadata {
+    public <methods>;
 }
